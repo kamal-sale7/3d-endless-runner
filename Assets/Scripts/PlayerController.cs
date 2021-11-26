@@ -19,6 +19,15 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 forwardMove = transform.forward * speed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + forwardMove);
+
+        if (Physics.Raycast(transform.position, Vector3.down, 0.5f))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
 
     // Update is called once per frame
@@ -103,17 +112,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Obstacle")
         {
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            isGrounded = false;
+            PlayerManager.gameOver = true;
         }
     }
 }
